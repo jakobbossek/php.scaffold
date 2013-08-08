@@ -77,11 +77,110 @@
 		return $string;
 	}
 
+	/**
+	 * Checks if string starts with a specific substring.
+	 * 
+	 * @param string $string
+	 *   String to check.
+	 * @param string $prefix
+	 *   Substring prefix to be checked.
+	 * @param boolean $ignore_case
+	 *   Perfom check case-sensitive.
+	 *
+	 * @return boolean
+	 *   True of $prefix is prefix of string $string.
+	 */
+	function starts_with($source, $prefix, $ignore_case = true) {
+		if (!(gettype($source) === "string" & gettype($prefix) === "string")) {
+			return false;
+		}
+		$pattern = "/^" . $prefix . "/";
+		if ($ignore_case) {
+			$pattern .= "i";
+		}
+		return (preg_match($pattern, $source) === 1);
+	}
+
+	/**
+	 * Checks if string ends with a specific substring.
+	 * 
+	 * @param string $string
+	 *   String to check.
+	 * @param string $prefix
+	 *   Substring prefix to be checked.
+	 * @param boolean $ignore_case
+	 *   Perfom check case-sensitive.
+	 *
+	 * @return boolean
+	 *   True of $prefix is prefix of string $string.
+	 */
+	function ends_with($source, $prefix, $ignore_case = true) {
+		if (!(gettype($source) === "string" & gettype($prefix) === "string")) {
+			return false;
+		}
+		$pattern = "/" . $prefix . "$/";
+		if ($ignore_case) {
+			$pattern .= "i";
+		}
+		return (preg_match($pattern, $source) === 1);
+	}
+
+	/**
+	 * Converts string of type i_am_a_string_seperated_by_underlines
+	 * into camel case, i.e., the result is iAmAStringSeperatedByUnderlines
+	 *
+	 * @param string $string
+	 *   Source string.
+	 * @param string $delimiter
+	 *   (Optional) sets the current delimiter before camel-case-iation.
+	 *
+	 * @return string
+	 *   Camel case transformed string.
+	 */
+	function to_camel($string, $delimiter = "_") {
+		// first convert all characters to lowercase
+		$string = strtolower(trim($string));
+		// split string by delimiter
+		$parts = explode($delimiter, $string);
+		// reduce parts to single string
+		return array_reduce($parts, 
+			function($acc, $val) { 
+				return $acc . (($acc != "") ? ucfirst($val) : $val);  
+			}, "");
+	}
+
+	/**
+	 * Converts a string to a form where upper case and lower case letters
+	 * take turns.
+	 *
+	 * @param string $string
+	 *   Source string.
+	 *
+	 * @param string
+	 *   Camelized string.
+	 */
+	function camelize($string) {
+		$string = strtolower(trim($string));
+		$s = "";
+		$camel = false;
+		for ($i = 0; $i < strlen($string); $i++) {
+			$char = $string[$i];
+			if ($char == " ") {
+				$s .= " ";
+				continue;
+			}
+			$s .= ($camel) ? strtoupper($char) : $char;
+			$camel = !$camel;
+		}
+		return $s;
+	}
+
+
 	/*
 	 * DEBUG HELPER FUNCTION
 	 * (like amplified var_dump)
 	 */
-	
+
 	/**
 	 * Amplified version of the famous var_dump php build in function.
 	 * Offers some nice color based emphasizing and gives the possibility
