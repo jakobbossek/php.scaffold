@@ -12,6 +12,12 @@
 	$request = new Request_Http();
 	$response = new Response_Http();
 
+	function nice_var_dump($expression) {
+		echo "<pre>";
+		var_dump($expression);
+		echo "</pre>";
+	}
+
 	// init logger object
 	// $logger = new Logger();
 	// // define writer, which saves logs in a spefific way
@@ -27,5 +33,6 @@
 	// $logger->addWriter("file_logger_2", $niceWriter);
 	// $logger->log("test_message", Logger::INFO);
 
+	require_once("routes.php");
 	FrontController2::handleRequest($request, $response);
 ?>

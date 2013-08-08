@@ -11,7 +11,7 @@
 
       	public function class_exists($class_name) {
           	$class_path = self::get_path_to_class($class_name);
-          	echo $class_path . "<br>";
+          	#echo $class_path . "<br>";
           	return (file_exists($class_path));
       	}
 
