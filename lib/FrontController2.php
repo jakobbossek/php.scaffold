@@ -18,7 +18,10 @@
 	final class FrontController2 {
 		public static function handleRequest(Request $request, Response $response) {
 			// just the stuff like blog/show/43/ is relevant
-			$q = explode("=", $_SERVER['QUERY_STRING'])[1];
+			$q = $_SERVER['QUERY_STRING'];
+			if ($q != "") {
+				$q = explode("=", $_SERVER['QUERY_STRING'])[1];	
+			}
 
 			// add trailing slash to query (all correct routes end with a slash)
 			if (substr($q, -1) != "/") {

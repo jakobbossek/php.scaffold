@@ -15,6 +15,8 @@
 	Routes::set("user/", "UserController@profile");
 	Routes::set("user/closure/", function() { echo "SIMPLE CLOSURE."; });
 
+	Routes::set("user/newuser/", "UserController@newuser");
+
 	/*
 	 * Dynamic routes (with variables)
 	 */

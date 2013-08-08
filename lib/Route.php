@@ -71,7 +71,7 @@
 				}
 			}
 
-			
+
 			$this->static_route_part = $static;
 			$this->params = $dynamic;
 
@@ -106,7 +106,7 @@
 			$split_q = explode("/", $route);
 
 			// if static route matches be happy and return
-			nice_var_dump($split_q);
+			nice_dump($split_q);
 
 			// matching static part
 			$i = 0;
@@ -144,7 +144,7 @@
 
 			if ($sanity_passed && ($j == count($split_q)) && ($k == count($this->params))) {
 				$this->q_params = array_splice($split_q, $i+1);
-				nice_var_dump($this->q_params);
+				#nice_dump($this->q_params);
 				return $sanity_passed;
 			}
 
