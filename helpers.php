@@ -126,6 +126,28 @@
 	}
 
 	/**
+	 * Check if string contains a given substring.
+	 * 
+	 * @param string $string
+	 *   Source string.
+	 * @param string $substring
+	 *   Substring to be matched.
+	 * @param boolean $ignore_case
+	 *   Perfom check case-sensitive.
+	 *
+	 * @return boolean
+	 *   Return true if $substring occurs at least once in $string.
+	 */
+	function contains($string, $substring, $ignore_case = true) {
+		$pattern = "/" . $substring . "/";
+		if ($ignore_case) {
+			$pattern .= "i";
+		}
+		return (preg_match($pattern, $string) === 1);
+	}
+
+
+	/**
 	 * Converts string of type i_am_a_string_seperated_by_underlines
 	 * into camel case, i.e., the result is iAmAStringSeperatedByUnderlines
 	 *
