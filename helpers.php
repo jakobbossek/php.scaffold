@@ -54,6 +54,28 @@
 	}
 
 	/*
+	 * ARRAY HELPERS
+	 */
+
+	/**
+	 * Checks if array is multidimensional.
+	 * 
+	 * @param array $arr
+	 *   Source $array
+	 * 
+	 * @return boolean
+	 *   Returns true, if array has at least two dimensions.
+	 */
+	function is_multidimensional(array $arr) {
+		foreach ($arr as $elem) {
+			if (is_array($elem)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
 	 * STRING HELPERS
 	 */
 
