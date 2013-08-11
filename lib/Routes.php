@@ -20,7 +20,7 @@
 		 *   Array of constraints. Each constraint is bind to a variable route parameter
 		 *   and restricts the type to a regular expression.	 
 		 */
-		public static function set($route, $action, array $constraints = array()) {
+		public static function register($route, $action, array $constraints = array()) {
 			self::$routes[] = new Route($route, $action, $constraints);
 		}
 
@@ -40,7 +40,7 @@
 		 */
 		public static function matches($actual_route) {
 			foreach (self::$routes as $route) {
-				if ($route->isAppropriate($actual_route)) {
+				if ($route->matches($actual_route)) {
 					return $route->getAction();
 				}
 			}
@@ -50,4 +50,5 @@
 			}));
 		}
 	}
+
 ?>

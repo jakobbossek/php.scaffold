@@ -11,17 +11,20 @@
 	 */
 
 	// FIXME: there is a problem with the "/" route!!!
-	Routes::set("/", "UserController@index");
-	Routes::set("user/", "UserController@profile");
-	Routes::set("user/closure/", function() { echo "SIMPLE CLOSURE."; });
+	Routes::register("/", "UserController@index");
+	Routes::register("user/", "UserController@profile");
+	Routes::register("user/closure/", function() { echo "SIMPLE CLOSURE."; });
 
-	Routes::set("user/newuser/", "UserController@newuser");
+	Routes::register("user/newuser/", "UserController@newuser");
 
 	/*
 	 * Dynamic routes (with variables)
 	 */
-	Routes::set(
-		"user/{id}/{name}", 
-		function($id, $name) { echo "USER: (" . $id . ", " . $name . ")"; },
-		array("id" => "[0-9]+", "name" => "[a-z]+"));
+	Routes::register("user/(:num)/task/(:any)/", function($id, $task_id) {
+		echo "USER/TASK: " . $id . "/" . $task_id . "<br>";
+	});
+
+	Routes::register("user/([a-z]{3,5}){1}/task/(:num)/", function($text, $number) {
+		echo "TEXT/NUMBER: " . $text . "/" .$number . "<br>";
+	});
 ?>

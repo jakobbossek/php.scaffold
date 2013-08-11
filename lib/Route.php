@@ -4,7 +4,7 @@
 	 */
 	final class Route {
 		/* static route part, i.e., with no variable parameters */
-		private $static_route_part;
+		private $route_pattern;
 		
 		/*
 		 * provided action. Either an array with controller object and action method,
@@ -49,33 +49,15 @@
 				$route = substr($route, 0, strrpos($route, '/'));
 			}
 
-			// init static and dynamic part of route
-			$static = "";
-			$dynamic = array();
+			// not more static and dynamic part shit
+			// make regex pattern out of route. Much more flexible way!
+			$route_pattern = str_replace("/", "\/", $route);
+			$route_pattern = str_replace("(:num)", "([0-9]+){1}", $route_pattern);
+			$route_pattern = str_replace("(:any)", "([a-zA-Z0-9]+){1}", $route_pattern);
+			$route_pattern = "/^" . $route_pattern . "$/";
 
-			// split route by slash symbol
-			$route_parts = explode("/", $route);
-			#nice_var_dump($route_parts);
-
-			/* 
-			 * for each part check whether it belongs to the first (static) part 
-			 * or a variable of the form {var}.
-			 */
-			foreach ($route_parts as $part) {
-				if (preg_match("/^{.*}$/", $part)) {
-					// save parameters <param> of form {<param>} 
-					$dynamic[] = str_replace(array("{", "}"), "", $part);
-				} else {
-					// set static part
-					$static .= $part . "/";
-				}
-			}
-
-
-			$this->static_route_part = $static;
-			$this->params = $dynamic;
-
-			#echo "ROUTE is set to " . $this->static_route_part. "<br>";
+			#echo "ROUTE PATTERN: " . $route_pattern . "<br>";
+			$this->route_pattern = $route_pattern;
 
 			// destinction of cases
 			if (is_callable($action)) {
@@ -97,58 +79,23 @@
 			$this->constraints = $constraints;
 		}
 
-		public function isAppropriate($route) {
+		public function matches($route) {
 			if (substr($route, -1) == "/") {
 				$route = substr($route, 0, strrpos($route, '/'));
 			}
+			$m = preg_match($this->route_pattern, $route, $matches);
 
-			/* split query */
-			$split_q = explode("/", $route);
+			if ($m === false) {
+				return $m;
+			} 
+			// FIXME: saving actual parameters in route object is not intuitive. Outsource this!
+			$this->q_params = array_slice($matches, 1);
 
 			// if static route matches be happy and return
-			nice_dump($split_q);
+			nice_dump($matches);
+			nice_dump($this->q_params);
 
-			// matching static part
-			$i = 0;
-			$sanity_passed = false;
-			for (; $i < count($split_q); ++$i) {
-				#echo "i is " . $i . "<br>";
-				$route_part_to_check = implode("/", array_slice($split_q, 0, $i+1)) . "/";
-				#echo "Checking route part " . $route_part_to_check . "<br>";
-				if ($this->static_route_part == $route_part_to_check) {
-					$sanity_passed = true; 
-					break;
-				}
-			}
-			
-			if (!$sanity_passed) {
-				return false;
-			}
-
-			// check if static route part matches, for example user of user/{id}
-			if ($sanity_passed & $i == count($split_q)) {
-				echo "FOUND matching static route " . $this->static_route_part ." " . $i . "<br>";
-				return true;
-			}
-			
-			// check constraints 
-			$sanity_passed = true;
-			for ($j = $i+1, $k = $j-($i+1); $j < count($split_q) & $k < count($this->params); $j++, $k++) {
-				// FIMXE: constraints are not mandatory! Check if constraint exists!
-				echo "(" . $split_q[$j] . ", " . $this->params[$k] . ")<br>";
-				if (isset($this->constraints[$this->params[$k]])) {
-					echo "Checking constraint " . $this->constraints[$this->params[$k]] . " on " . $split_q[$j] . "<br>";
-					$sanity_passed &= preg_match("/^" . $this->constraints[$this->params[$k]] . "$/i", $split_q[$j]);
-				}
-			}
-
-			if ($sanity_passed && ($j == count($split_q)) && ($k == count($this->params))) {
-				$this->q_params = array_splice($split_q, $i+1);
-				#nice_dump($this->q_params);
-				return $sanity_passed;
-			}
-
-			return false;
+			return ($m === 1); 
 		}
 
 		public function getAction() {
