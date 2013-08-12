@@ -2,6 +2,7 @@
 	class View {
 		private $data = array();
 		private $view_path;
+		private $subs = array();
 
 		public static function make($view_path, $data = array()) {
 			return new View($view_path, $data);
@@ -17,9 +18,18 @@
 			return $this;
 		}
 
+		public function embed($key, View $sub) {
+			$this->subs[$key] = $sub;
+			return $this;
+		}
+
+		private function sub($key) {
+			$this->subs[$key]->show();
+		}
+
 		public function show() {
 			$data = $this->data;
-			echo "including VIEW " . $this->view_path . "<br>";
+			#echo "including VIEW " . $this->view_path . "<br>";
 			include_once($this->view_path);
 		}
 	}
