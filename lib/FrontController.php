@@ -15,7 +15,7 @@
 	 * @param Response $response
 	 *   (HTTP) response object.
 	 */
-	final class FrontController2 {
+	final class FrontController {
 		public static function handleRequest(Request $request, Response $response) {
 			// just the stuff like blog/show/43/ is relevant
 			$q = $_SERVER['QUERY_STRING'];
@@ -40,7 +40,7 @@
 			$action = $res[0];
 
 			// closure? (move static is_function to helper file)
-			if (self::is_function($action)) {
+			if (isFunction($action)) {
 				if (is_array($params)) {
 					call_user_func_array($action, $params);
 				} else {
@@ -60,12 +60,6 @@
 					$controller->$act();
 				}	
 			}
-		}
-
-		// FIXME: move this to helper file
-		public static function is_function($f) {
-    		return (is_string($f) && function_exists($f)) || 
-    		       (is_object($f) && ($f instanceof Closure));
 		}
 	}
 ?>

@@ -219,6 +219,24 @@
 		return $s;
 	}
 
+	/*
+	 * UNCATEGORIZED HELPER FUNCTIONS
+	 */
+
+	/**
+	 * Checks whether given parameter is a function or a closure object.
+	 * 
+	 * @param mixed $obj
+	 *   Object to check.
+	 * 
+	 * @return boolean
+	 *   True if given object is (user-defined) function or closure, false otherwise.
+	 */
+	function isFunction($obj) {
+    	return (is_string($obj) && function_exists($obj)) || 
+    		    (is_object($obj) && ($obj instanceof Closure));
+	}
+
 
 	/*
 	 * DEBUG HELPER FUNCTION

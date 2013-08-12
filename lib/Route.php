@@ -92,9 +92,8 @@
 			$this->q_params = array_slice($matches, 1);
 
 			// if static route matches be happy and return
-			nice_dump($matches);
-			nice_dump($this->q_params);
-
+			#nice_dump($matches);
+			#nice_dump($this->q_params);
 			return ($m === 1); 
 		}
 

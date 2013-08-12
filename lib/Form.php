@@ -32,7 +32,7 @@
 			return "</form>\n";
 		}
 		/*
-		 * unfortunately php has no support for named attributes
+		 * FIXME: unfortunately php has no support for named attributes
 		 * Providing only $options and some $attributes leaving all other attributes on their defaults
 		 * requires the rather ugly call
 		 * select(array(...), 1, 1, false, array(...));
@@ -41,16 +41,25 @@
 		 */
 		public static function select(array $options, $selected = 1, $size = 1, $multiple = false, $attributes = array()) {
 			$select = "<select";
+
+			// append attributes
 			$select = self::attributes($select, $attributes);
 
+			// shall files be uploaded by the form?
 			if ($multiple) {
 				$select .= " multiple";
 			}
+
+			$select .= ' size="' . $size . '"';
 			$select .= ">";
+
 			if (!is_multidimensional($options)) {
+				// "regular" select field (no option groups)
 				$index = 1;
 				foreach ($options as $label => $value) {
 					$select .= '<option label="' . $label . '" value="' . $value . '"';
+					// is this the selected item?
+					// FIXME: make the $selected var a string (the value of the option selected)
 					if ($selected === $index) {
 						$select .= ' selected';
 					}
@@ -58,11 +67,12 @@
 					$index++;
 				}
 			} else {
+				// option groups
 				$optgroup_index = 1;
 				$split_selected = explode(":", $selected);
 				$optgroup_selected = (count($split_selected) == 2) ? $split_selected[0] : 1;
 				$selected = (count($split_selected) == 2) ? $split_selected[1] : 1;
-				echo $optgroup_selected . ":" . $selected . "<br>";
+				#echo $optgroup_selected . ":" . $selected . "<br>";
 				foreach ($options as $optgroup_label => $the_options) {
 					$select .= '<optgroup label="' . $optgroup_label . '">';
 					$index = 1;
@@ -72,7 +82,7 @@
 							$select .= ' selected';
 						}
 						$select .= '>' . $label . '</option>';
-						echo $optgroup_index . ":" . $index . "<br>";
+						#echo $optgroup_index . ":" . $index . "<br>";
 
 						$index++;
 					}
@@ -82,6 +92,30 @@
 			}
 			$select .= '</select>';
 			return $select;
+		}
+
+		public static function text($options = array()) {
+			return self::input("text", $options);
+		}
+
+		public static function password($options = array()) {
+			return self::input("password", $options);
+		}
+
+		private static function input($type, $options) {
+			$field = '<input type="' . $type . '"';
+			if (isset($options['attributes']) AND is_array($options['attributes'])) {
+				$field .= self::attributes($field, $options['attributes']);
+			}
+			if (isset($options['value'])) {
+				$field .= ' value="' . $options['value'] . '"';
+ 			}
+ 			if (isset($options['maxlength'])) {
+ 				$maxlength = (int) $options['maxlength'];
+ 				$field .= ' maxlength="' . $maxlength . '"';
+ 			}
+ 			$field .= '>';
+ 			return $field;
 		}
 
 		private static function attributes($obj, $attributes = array()) {
