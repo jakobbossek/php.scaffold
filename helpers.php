@@ -75,13 +75,78 @@
 		return false;
 	}
 
+	/**
+	 * Applies count to each subarray until a specified limit is reached.
+	 * 
+	 * @param array $arr
+	 *   Source array.
+	 * @param integer $limit
+	 *   Maximum considered depth.
+	 * 
+	 * @return integer
+	 *   Number of array elements up to depth limit.
+	 */
+	function count_recursive(array $arr, $limit = INF) {
+		$count = 0;
+		foreach ($arr as $id => $subarray) {
+			if (is_array($subarray) AND $limit > 0) {
+				$count += count_recursive($subarray, $limit-1);
+			} else {
+				$count += 1;
+			}
+		}
+		return $count;
+	}
+
+	/**
+	 * Counts only second level elements.
+	 * 
+	 * @param array @arr
+	 *   Source array.
+	 * 
+	 * @return integer
+	 *   Number of array elements up to second level.
+	 */
+	function count_up_to_second_level(array $arr) {
+		return count_recursive($arr, 1);
+	}
+
+	/**
+	 * Extend an array of options with other keys.
+	 * 
+	 * @example
+	 * <code>
+	 * <?php
+	 * 	$defaults = array("user" => "root", "pass" => "", "server" => "localhost");
+	 * var_dump($defaults);
+	 *  $options = array_extend($defaults, array("pass" => "password", "server" => "domain.com"));
+	 *  var_dump($options);
+	 * ?>
+	 * </code>
+	 * 
+	 * @param array $arr
+	 *   Source array.
+	 * @param array $by
+	 *   Array for extension.
+	 * 
+	 * @return array
+	 *   Extended array.
+	 */
+	function array_extend(array $arr, array $by) {
+		$modified = $arr;
+		foreach ($by as $key => $value) {
+			$modified[$key] = $value;
+		}
+		return $modified;
+	}
+
 	/*
 	 * STRING HELPERS
 	 */
 
 	/**
 	 * Appends a trailing delimiter character to the given string, if this one
-	 * is not already trailed by the delimiter
+	 * is not already trailed by the delimiter.
 	 *
 	 * @param string $string 
 	 *   Source string.

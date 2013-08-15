@@ -7,12 +7,14 @@
 		}
 
 		public function index() {
+			echo "<i>Entering DemoPresenter</i><br><hr>";
+
 			$data = array("name" => "Jakob Bossek", "profession" => "Webworker");
 			$sub_view = View::make("app/views/demo.embed.tpl.php", $data);
 			View::make("app/views/demo.tpl.php", $data)->assign("website", "www.jakobbossek.de/")->embed("test", $sub_view)->show();
 			return;
 
-			echo "Entering DemoPresenter<br>";
+			#echo "<br>" . link_to("user/", "Show user profile", array("title" => "Click here for your user profile", "id" => "user_profile"), false) . "<br>";
 			echo Form::open("user/edit", "POST", true, array("name" => "test_form_name", "id" => "test_form_id")) . "<br>";
 			echo Form::select(array(
 				"Names with A" => array("Anna" => "1", "Alfred" => "2", "Anton" => "3"),

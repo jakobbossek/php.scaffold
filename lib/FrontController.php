@@ -33,6 +33,7 @@
 
 			// No matching route?
 			if ($res === false) {
+				// FIXME: return is not enough. "Redirect" to /
 				return;
 			}
 

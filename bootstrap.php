@@ -16,7 +16,6 @@
 
 	require_once("routes.php");
 	FrontController::handleRequest($request, $response);
-	echo "<br>" . link_to("user/", "Show user profile", array("title" => "Click here for your user profile", "id" => "user_profile"), false) . "<br>";
 
 	nice_dump($_SERVER, array("REQUEST_METHOD", "SCRIPT_NAME"));
 ?>

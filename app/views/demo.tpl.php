@@ -13,5 +13,12 @@
 		<?= $this->sub("test") ?>
 
 		<p>Lorem ipsum Occaecat aliqua commodo culpa deserunt Duis officia sit laborum reprehenderit sed et quis in ad.</p>
+
+		<?php
+			$defaults = array("user" => "root", "pass" => "", "server" => "localhost");
+			nice_dump($defaults);
+			$options = array_extend($defaults, array("pass" => "password", "server" => "domain.com"));
+			nice_dump($options);
+		?>
 	</body>
 </html>
