@@ -16,6 +16,7 @@
 				die("Unsupported HTTP method type " . $method . " provided to form.");
 			}
 			$form = "<form";
+			$form .= ' method="' . $method . '"';
 			// add optional params like id, name or css inline styles
 			$form = self::attributes($form, $attributes);
 
@@ -105,7 +106,7 @@
 		private static function input($type, $options) {
 			$field = '<input type="' . $type . '"';
 			if (isset($options['attributes']) AND is_array($options['attributes'])) {
-				$field .= self::attributes($field, $options['attributes']);
+				$field = self::attributes($field, $options['attributes']);
 			}
 			if (isset($options['value'])) {
 				$field .= ' value="' . $options['value'] . '"';
@@ -116,6 +117,21 @@
  			}
  			$field .= '>';
  			return $field;
+		}
+
+		public static function label($options = array()) {
+			if (!isset($options["for"])) {
+				die("Option 'for' is mandatory for labels.");
+			}
+			if (!isset($options["label"])) {
+				die("Option 'label' is mandatory for labels.");
+			}
+			$label = '<label for="' . trim($options["for"]) . '"';
+			if (isset($options['attributes']) AND is_array($options['attributes'])) {
+				$label = self::attributes($label, $options['attributes']);
+			}
+			$label .= '>' . $options["label"] . "</label>";
+			return $label;
 		}
 
 		private static function attributes($obj, $attributes = array()) {

@@ -12,10 +12,11 @@
 			$data = array("name" => "Jakob Bossek", "profession" => "Webworker");
 			$sub_view = View::make("app/views/demo.embed.tpl.php", $data);
 			View::make("app/views/demo.tpl.php", $data)->assign("website", "www.jakobbossek.de/")->embed("test", $sub_view)->show();
-			return;
+			#return;
 
 			#echo "<br>" . link_to("user/", "Show user profile", array("title" => "Click here for your user profile", "id" => "user_profile"), false) . "<br>";
 			echo Form::open("user/edit", "POST", true, array("name" => "test_form_name", "id" => "test_form_id")) . "<br>";
+			echo Form::label(array("for" => "names", "label" => "Names", "attributes" => array("id" => "names_label", "onclick" => "javascript:alert('label testing');return false"))) . "<br>";
 			echo Form::select(array(
 				"Names with A" => array("Anna" => "1", "Alfred" => "2", "Anton" => "3"),
 				"Names with B" => array("Bernd" => "4", "Berta" => "5", "Banana-Joe" => "6")),
@@ -24,9 +25,9 @@
 			echo Form::select(array("Anna" => "1", "Alfred" => "2", "Anton" => "3"),
 			3, 1, false, array("name" => "tesomat", "id" => "test")) . "<br>";
 
-			echo Form::text(array("maxlength" => 30, "value" => "Max Mustermann", "options" => array("id" => "name")));
+			echo Form::text(array("maxlength" => 30, "value" => "Max Mustermann", "attributes" => array("id" => "name")));
 
-			echo Form::password(array("value" => "secret", "options" => array("id" => "name")));
+			echo Form::password(array("value" => "secret", "attributes" => array("id" => "name")));
 
 			echo Form::close();
 
