@@ -1,8 +1,14 @@
 <?php
+	/* load autoload locators */
 	require_once("lib/Autoload/Locator.php");
 	require_once("lib/Autoload/LocatorQueue.php");
 	require_once("lib/Autoload/LibLocator.php");
+
+	/* load different configuration files */
 	require_once("config/config.php");
+	require_once("config/database.php");
+	require_once("config/application.php");
+
 	require_once("helpers.php");
 
 	LocatorQueue::enqueueLocator("oldlib", new LibLocator("oldlib"));

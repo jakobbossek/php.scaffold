@@ -37,10 +37,11 @@
 				return;
 			}
 
+			// FIXME: access to params via $res[1] is counterintuitive. At least named params would be nice
 			$params = (isset($res[1])) ? $res[1] : null;
 			$action = $res[0];
 
-			// closure? (move static is_function to helper file)
+			// action closure?
 			if (isFunction($action)) {
 				if (is_array($params)) {
 					call_user_func_array($action, $params);

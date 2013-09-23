@@ -1,10 +1,5 @@
-<!doctype html>
-<html>
-	<head>
-		<title>Demo Page</title>
-	</head>
-	<body>
-		<h1>Hello demo</h1>
+<?php include_once("layouts/header.php"); ?>
+
 		<p>I am <?= $data["name"] ?> and I work as a professional <?= $data["profession"] ?><br>
 			<a href="http://<?= trim($data["website"]) ?>">my website</a></p>
 
@@ -20,5 +15,5 @@
 			$options = array_extend($defaults, array("pass" => "password", "server" => "domain.com"));
 			nice_dump($options);
 		?>
-	</body>
-</html>
+
+<?php include_once("layouts/footer.php"); ?>
