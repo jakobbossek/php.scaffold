@@ -7,6 +7,8 @@
 
 	/**
 	 * php.scaffold recommends to use PDO (php data objects) to work with databases.
+	 * Take advantage of an pure object-orientated interface, exchangeable drivers and prepared statements 
+	 * for more secure web applications.
 	 * 
 	 * PDO is a database abstraction interface, that supports different databases.
 	 * Because MySQL continues to be very prevalent in web developement, this is set as the default
