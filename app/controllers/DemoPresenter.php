@@ -6,6 +6,10 @@
 			$this->protected_actions = array("edit", "delete", "add");
 		}
 
+		public function showid($id) {
+			echo "ID is: " . $id ."<br>";
+		}
+
 		public function index() {
 			#echo "<i>Entering DemoPresenter</i><br><hr>";
 
